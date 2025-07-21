@@ -9,7 +9,7 @@ app.use(express.json());
 const YOUR_DOMAIN = "https://peterbrownlie.github.io/Calne-RFC-Kit-Order-Form";
 
 app.post("/create-checkout-session", async (req, res) => {
-  const { amount } = req.body;
+  const { amount } = Math.round(req.body.amount * 100);
 
   if (!amount || amount <= 0) {
     return res.status(400).json({ error: "Invalid payment amount" });
