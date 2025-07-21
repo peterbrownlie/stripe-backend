@@ -9,11 +9,13 @@ app.use(express.json());
 const YOUR_DOMAIN = "https://peterbrownlie.github.io/Calne-RFC-Kit-Order-Form";
 
 app.post("/create-checkout-session", async (req, res) => {
-  const { amount } = Math.round(req.body.amount * 100);
+  const rawAmount = req.body.amount;
 
-  if (!amount || amount <= 0) {
+  if (!rawAmount || rawAmount <= 0) {
     return res.status(400).json({ error: "Invalid payment amount" });
   }
+
+  const amount = Math.round(rawAmount * 100); // convert to pence
 
   try {
     const session = await stripe.checkout.sessions.create({
@@ -41,6 +43,7 @@ app.post("/create-checkout-session", async (req, res) => {
     res.status(500).json({ error: "Payment failed to initiate." });
   }
 });
+
 
 const PORT = process.env.PORT || 4242;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
