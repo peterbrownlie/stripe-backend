@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
-const stripe = require("stripe")("sk_test_51RnEslFaauKAsVP9DJj0TL7p2PvHicGMPfDMWzpkgeyR90fBuP2werTG9ZKG6olsSYqNS3dOkqDVLFlbe4hWE7zN00BLQC5f2D"); // Replace with your Stripe secret key
+require("dotenv").config();
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const cors = require("cors");
 
 app.use(cors());
